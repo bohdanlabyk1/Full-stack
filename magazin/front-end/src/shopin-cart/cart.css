@@ -1,0 +1,30 @@
+.cart {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .cart-details span {
+    margin-right: 10px;
+  }
+  
+  .cart-quantity-input {
+    width: 50px;
+    text-align: center;
+  }
+  
+  .remove-from-cart {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

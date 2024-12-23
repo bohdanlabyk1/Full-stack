@@ -1,0 +1,29 @@
+/* CategoryList.css */
+
+ul {
+    list-style-type: none; /* Видаляємо маркери списку */
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    background-color: #f9f9f9; /* Світлий фон для категорії */
+    margin: 10px 0; /* Проміжки між категоріями */
+    padding: 15px; /* Внутрішній відступ */
+    border-radius: 8px; /* Закруглення країв */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тінь для об'ємності */
+    transition: transform 0.2s, box-shadow 0.2s; /* Анімація при наведенні */
+  }
+  
+  li:hover {
+    transform: translateY(-3px); /* Підняття при наведенні */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Збільшення тіні */
+  }
+  
+  h3 {
+    font-size: 18px;
+    color: #333; /* Темний текст */
+    margin: 0;
+    text-align: center; /* Центрування тексту */
+  }
+  
