@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  MYSQL_HOST: '127.0.0.1.mysql.database.azure.com'
+  MYSQL_HOST: 'localhost.database.azure.com'
   MYSQL_USER: 'root'
   MYSQL_PASSWORD: '$(MYSQL_PASSWORD)' 
-  MYSQL_DATABASE: 'Dashboard'
+  MYSQL_DATABASE: 'dashboard'
 
 steps:
   - task: NodeTool@0
