@@ -4,6 +4,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  MYSQL_HOST: '127.0.0.1.mysql.database.azure.com'
+  MYSQL_USER: 'root'
+  MYSQL_PASSWORD: '$(MYSQL_PASSWORD)' 
+  MYSQL_DATABASE: 'Dashboard'
+
 steps:
   - task: NodeTool@0
     inputs:
@@ -11,10 +17,25 @@ steps:
     displayName: 'Install Node.js'
 
   - script: |
+      cd frontend
       npm install
+      npm run start
       npm run build
     displayName: 'Build Frontend'
 
   - script: |
-      echo "Run backend tests or deploy backend"
-    displayName: 'Backend Task'
+      cd backend
+      npm install
+       npm run start
+    displayName: 'Setup Backend'
+
+  - task: DownloadSecureFile@1
+    name: downloadSQL
+    inputs:
+      secureFile: 'Dump20250414.sql'
+
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y mysql-client
+      mysql -h $(MYSQL_HOST) -u $(MYSQL_USER) -p$(MYSQL_PASSWORD) $(MYSQL_DATABASE) < $(downloadSQL.secureFilePath)
+    displayName: 'Import MySQL Dump'
