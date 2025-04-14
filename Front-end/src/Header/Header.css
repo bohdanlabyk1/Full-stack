@@ -1,0 +1,40 @@
+.header {
+  background: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+}
+.header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header__logo img {
+  height: 50px;
+}
+.header__nav {
+  display: flex;
+  padding-left: 30px;
+  gap: 20px;
+}
+.header .nav__item {
+  text-decoration: none;
+  color: rgb(8, 8, 8);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 15px;
+  transition: color 0.3s ease;
+}
+.header .nav__item:hover {
+  color: #007bff;
+}
+.header__search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.header__icons {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}/*# sourceMappingURL=Header.css.map */
