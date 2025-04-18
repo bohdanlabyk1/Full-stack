@@ -5,8 +5,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  MYSQL_HOST: 'localhost.database.azure.com'
-  MYSQL_USER: 'root'
+  MYSQL_HOST: 'your-db-server.mysql.database.azure.com'  # Заміни на правильний хост
+  MYSQL_USER: 'your-username@your-db-server'
   MYSQL_PASSWORD: '$(MYSQL_PASSWORD)' 
   MYSQL_DATABASE: 'dashboard'
 
@@ -19,15 +19,14 @@ steps:
   - script: |
       cd frontend
       npm install
-      npm run start
       npm run build
     displayName: 'Build Frontend'
 
   - script: |
       cd backend
       npm install
-      npm run start
-    displayName: 'Setup Backend'
+      npm run build   # або інша команда, НЕ start
+    displayName: 'Build Backend'
 
   - task: DownloadSecureFile@1
     name: downloadSQL
