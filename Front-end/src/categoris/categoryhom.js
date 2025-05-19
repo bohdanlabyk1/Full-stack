@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./categorys.css";
 import { useNavigate } from "react-router-dom";
-import { getCategories } from "../api/api";
+import { getPopularCategories } from "../api/api"; 
+import './categorys.css';
 
-const CategoryHom = () => {
+const CategoryHom = ({handleMoreCategories}) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchPopularCategories = async () => {
       try {
-        const data = await getCategories();
+        const data = await getPopularCategories();
         setCategories(data);
       } catch (error) {
         setError(error.message);
@@ -21,26 +21,35 @@ const CategoryHom = () => {
       }
     };
 
-    fetchCategories();
+    fetchPopularCategories();
   }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!categories.length) return <p>No categories found.</p>;
+  if (!categories.length) return <p>No popular categories found.</p>;
 
   return (
-    <div>
-      <h1>Категорії</h1>
+    <div className="popular-category-container">
+      <h1>Популярні категорії</h1>
       <ul className="categorihom">
         {categories.map((category) => (
-          <li key={category.id}>
-            <button onClick={() => navigate(`/category/${category.id}`)}>
-              {category.name}
-            </button>
+          <li className="cat" key={category.id} onClick={() => navigate(`/category/${category.id}`)}>
+            {category.image && (
+              <img
+                src={category.image}
+                alt={category.name}
+                className="category-image"
+              />
+            )}
+            <span className="cat-name">{category.name}</span>
           </li>
         ))}
       </ul>
-    </div>
+   
+    <div  className="view-all" 
+    onClick={handleMoreCategories}>Дивитися всі</div>
+  </div>
+   
   );
 };
 

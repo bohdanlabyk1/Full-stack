@@ -22,6 +22,7 @@ const fetchData = async (endpoint, options = {}) => {
 export const getCategories = () => fetchData('/categories');
 
 // Products API
+export const getPopularCategories = () => fetchData('/categories/popularcategori');
 export const getProducts = () => fetchData('/products');
 export const getProductsByCategory = (categoryId) => fetchData(`/products/category/${categoryId}`);
 export const searchProducts = (query) => fetchData(`/products/search?query=${query}`);
@@ -88,3 +89,5 @@ export const updateUserProfile = (userId, userData) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
+  
+  

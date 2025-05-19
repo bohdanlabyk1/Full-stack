@@ -18,8 +18,7 @@ const Home = ({ addToCart }) => {
       <div style={{ display: "flex", justifyContent: "space-arund", alignItems: "center" }}>
       </div>
     <div style={{ display: "flex", flexDirection: "row", gap: "10px", flexWrap: "wrap" }}>
-  <CategoryHom onCategorySelect={setSelectedCategory} />
-  <button onClick={handleMoreCategories}>Дивитися всі</button>
+  <CategoryHom onCategorySelect={setSelectedCategory} handleMoreCategories={handleMoreCategories} />
 </div>
 
       <h2>Популярні товари</h2>

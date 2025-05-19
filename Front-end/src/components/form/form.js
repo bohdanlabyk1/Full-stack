@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./form.scss";
 import { loginUser, registerUser } from "./../../api/api"; // Імпорт API-запитів
 
-const AuthForm = () => {
+const AuthForm = ({ setIsAuthenticated }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
@@ -28,15 +28,16 @@ const AuthForm = () => {
     try {
       const result = isLogin
         ? await loginUser(formData.email, formData.password)
-        : await registerUser(formData.username, formData.email, formData.password);
+        : await registerUser(formData.email, formData.password, formData.username);
 
       setMessage(result.message);
 
       // Якщо успішно, переходимо на URL, який повернув сервер
-      if (result.status === "success" && result.redirect_url) {
-        window.location.href = result.redirect_url;
+      if (result.status === "success" && result.token) {
+        localStorage.setItem("token", result.token);
+        setIsAuthenticated(true);// або виклик функції setIsAuthenticated(true)
       }
-
+      
       // Очищення полів форми
       setFormData({
         email: "",

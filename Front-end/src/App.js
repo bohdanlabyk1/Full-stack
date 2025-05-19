@@ -8,6 +8,7 @@ import HomePage from "./home/Hom";
 import MainLayout from "./components/Maypage/MayHom";
 import FilteredProductsPage from "./components/Productpage/Productpage";
 import ItemsPage from "./Header/DrowpMenu/itempage";
+import Profile from "./components/Profail/Profail";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -59,7 +60,8 @@ function App() {
                 cart={cart}
               />
             }
-          />
+          />        
+          <Route path="/profile" element={<Profile/>}/>
           <Route path="/items" element={<ItemsPage addToCart={addToCart} />} />
           <Route path="/items/:itemId" element={<FilteredProductsPage addToCart={addToCart} />} />
           <Route path="/category/:categoryId" element={<FilteredProductsPage addToCart={addToCart} />} />
@@ -67,6 +69,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutForm cart={cart} />} />
           <Route path="/garantia" element={<Garantia />} />
           <Route path="/about" element={<About />} />
+  
         </Route>
       </Routes>
     </Router>

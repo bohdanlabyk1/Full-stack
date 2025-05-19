@@ -9,10 +9,14 @@ import Cart from "../shopin-cart/cart";
 import Search from "./Sreach/Sreach";
 import Headernav from "./headernav/Header-nav";
 import DropMenu from "./DrowpMenu/Dropmenu";
+import Sidebar from "./Saidbar/Saidbar";
 
 const Header = ({ cart, addToCart, removeFromCart, updateCartQuantity, setSearchQuery }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
 
   const toggleAuthModal = () => setIsAuthModalOpen(!isAuthModalOpen);
   const toggleCartModal = () => setIsCartModalOpen(!isCartModalOpen);
@@ -27,6 +31,12 @@ const Header = ({ cart, addToCart, removeFromCart, updateCartQuantity, setSearch
   return (
     <header className="header">
       <div className="header__top">
+      <Sidebar toggleAuthModal={toggleAuthModal} 
+       isAuthenticated={isAuthenticated}
+       setIsAuthenticated={setIsAuthenticated}
+       />
+
+    
         <div className="header__logo">
           <img src={logo} alt="Site Logo" />
         </div>
@@ -34,14 +44,13 @@ const Header = ({ cart, addToCart, removeFromCart, updateCartQuantity, setSearch
         <div className="header__search">
           <Search onSearch={handleSearch} />
         </div>
-
-        <div className="header__icons">
-          <FaUser onClick={toggleAuthModal} />
+        <FaUser onClick={toggleAuthModal} />
           {isAuthModalOpen && (
             <Modal onClose={toggleAuthModal}>
-              <AuthForm />
+              <AuthForm setIsAuthenticated={setIsAuthenticated}/>
             </Modal>
           )}
+        <div className="header__icons">
           <FaShoppingCart onClick={toggleCartModal} />
           {isCartModalOpen && (
             <Modal onClose={toggleCartModal} className="wide">

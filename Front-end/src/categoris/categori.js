@@ -33,7 +33,7 @@ const CategoryList = ({ onCategorySelect }) => {
       <ul>
         <h1>Каталог</h1>
         {categories.map((category) => (
-         <li key={category.id}>
+         <li className= "kat" key={category.id}>
             <button onClick={() => navigate(`/category/${category.id}`)}>
               {category.name}
              </button>

@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseInterceptors, Body } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CategoryService } from './categoris.service';
+import type { Express } from 'express';
 
 @Controller('categories')
 export class CategoryController {
@@ -9,9 +11,14 @@ export class CategoryController {
   async findAll() {
     return this.categoryService.findAll();
   }
+@Get('/popularcategori')
+async getPopularCategories() {
+  return this.categoryService.getNewCategory();
+}
 
   @Post()
-  async create(@Body('name') name: string) {
-    return this.categoryService.create(name);
+  @UseInterceptors(FileInterceptor('image'))
+  async create(@UploadedFile() file: Express.Multer.File, @Body('name') name: string) {
+    return this.categoryService.create(name, file?.buffer);
   }
 }

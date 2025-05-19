@@ -9,6 +9,12 @@ export class Category {
   @Column()
   name: string;
 
+  @Column({ type: 'longblob', nullable: true })
+  image: Buffer;
+  @Column({ default: false }) 
+  isPopularcategori: boolean;
+  
+
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 }

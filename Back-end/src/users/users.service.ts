@@ -13,10 +13,16 @@ export class UsersService {
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
   ) {}
+async updateUser(id: number, updateData: Partial<User>): Promise<User> {
+  await this.usersRepository.update(id, updateData);
+  return this.getUserById(id);
+}
 
-  // Реєстрація
+  async getUserById(id: number): Promise<User> {
+    return this.usersRepository.findOne({ where: { id } });
+  }
+
   async register(email: string, username: string, password: string, confirmPassword: string): Promise<User> {
-    // Перевірка чи співпадають паролі
     if (password !== confirmPassword) {
       throw new HttpException('Паролі не співпадають', HttpStatus.BAD_REQUEST);
     }
@@ -39,7 +45,6 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  // Авторизація
   async login(email: string, password: string): Promise<{ user: User; token: string }> {
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {

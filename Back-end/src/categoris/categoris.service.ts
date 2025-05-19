@@ -10,12 +10,36 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async findAll(): Promise<Category[]> {
-    return this.categoryRepository.find({ relations: ['products'] });
-  }
+ async findAll(): Promise<any[]> {
+  const categories = await this.categoryRepository.find({ relations: ['products'] });
 
-  async create(name: string): Promise<Category> {
-    const category = this.categoryRepository.create({ name });
-    return this.categoryRepository.save(category);
-  }
+  return categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    image: category.image
+      ? `data:image/png;base64,${Buffer.from(category.image).toString('base64')}`
+      : null,
+  }));
+}
+
+async getNewCategory(): Promise<any[]> {
+  const categories = await this.categoryRepository.find({
+    where: { isPopularcategori: true },
+    take: 10,
+    relations: ['products'],
+  });
+
+  return categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    image: category.image
+      ? `data:image/png;base64,${Buffer.from(category.image).toString('base64')}`
+      : null,
+  }));
+}
+async create(name: string, image?: Buffer): Promise<Category> {
+  const category = this.categoryRepository.create({ name, image });
+  return this.categoryRepository.save(category);
+}
+
 }

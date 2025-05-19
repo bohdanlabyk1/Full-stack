@@ -17,7 +17,25 @@ export class User {
   @Column()
   password: string;
 
-  // Add this line to define the one-to-many relationship with Cart
+  // user.entity.ts
+@Column({ nullable: true })
+phone: string;
+
+@Column({ nullable: true })
+patronymic: string;
+
+@Column({ nullable: true })
+birthdate: string;
+
+@Column({ nullable: true })
+gender: string;
+
+@Column({ nullable: true })
+language: string;
+
+@Column({ nullable: true })
+description: string;
+
   @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
 }
