@@ -1,0 +1,40 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  MYSQL_HOST: 'your-db-server.mysql.database.azure.com'  # Заміни на правильний хост
+  MYSQL_USER: 'your-username@your-db-server'
+  MYSQL_PASSWORD: '$(MYSQL_PASSWORD)' 
+  MYSQL_DATABASE: 'dashboard'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      cd frontend
+      npm install
+      npm run build
+    displayName: 'Build Frontend'
+
+  - script: |
+      cd backend
+      npm install
+      npm run build   # або інша команда, НЕ start
+    displayName: 'Build Backend'
+
+  - task: DownloadSecureFile@1
+    name: downloadSQL
+    inputs:
+      secureFile: 'Dump20250414.sql'
+
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y mysql-client
+      mysql -h $(MYSQL_HOST) -u $(MYSQL_USER) -p$(MYSQL_PASSWORD) $(MYSQL_DATABASE) < $(downloadSQL.secureFilePath)
+    displayName: 'Import MySQL Dump'
