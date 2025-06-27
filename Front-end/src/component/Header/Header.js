@@ -6,7 +6,7 @@ import { FaRegCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import Authform from '../Authuser/Authform';
-import Sidebar from '../Profail/Profail'; // ✅ правильний імпорт
+import Sidebar from '../Profail/Profail'; // 
 import Cart from '../../Shopinkart/Cart'
 import DropMenu from '../filter/Dropmenu';
 
