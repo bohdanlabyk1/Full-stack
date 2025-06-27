@@ -6,8 +6,6 @@ import { CategoryModule } from './categoris/categoris.module';
 import { ShopinCartModule } from './shopin-cart/shopin-cart.module';
 import { FilterModule } from './Filter/filter.module';
 
-
-
 @Module({
   imports: [
    DatabaseModule,

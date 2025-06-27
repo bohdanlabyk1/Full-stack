@@ -2,6 +2,7 @@
 
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Cart } from './../shopin-cart/cart.entity'; // Import the Cart entity
+import { Product } from 'src/products/products.entity';
 
 @Entity('users')
 export class User {
@@ -38,4 +39,8 @@ description: string;
 
   @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
+  // user.entity.ts
+@OneToMany(() => Product, (product) => product.user)
+products: Product[];
+
 }

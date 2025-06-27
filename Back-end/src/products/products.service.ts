@@ -6,11 +6,14 @@ import { Category } from './../categoris/categori.entity';
 import { ProductDto } from './product.Dto';
 import { Item } from './../Filter/item.entity';
 import { Filter } from 'src/Filter/filter.entity';
+import { User } from 'src/users/model.entity';
 
 
 @Injectable()
 export class ProductService {
   constructor(
+    @InjectRepository(User)
+private userRepository: Repository<User>,
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     @InjectRepository(Category)
@@ -100,34 +103,64 @@ async getNewProducts(): Promise<ProductDto[]> {
     }
   }
 
-  async create(
-    name: string,
-    price: number,
-    description: string,
-    categoryId: number,
-  ): Promise<ProductDto> {
-    const category = await this.categoryRepository.findOne({ where: { id: categoryId } });
+// ProductService
+async getProductsByUser(userId: number): Promise<ProductDto[]> {
+  const products = await this.productRepository.find({
+    where: { user: { id: userId } },
+    relations: ['category'],
+  });
 
-    if (!category) {
-      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
-    }
+  return products.map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    description: product.description,
+    image: product.image 
+      ? `data:image/png;base64,${Buffer.from(product.image).toString('base64')}` 
+      : null,
+    categoryId: product.category?.id || null,
+  }));
+}
 
-    const product = this.productRepository.create({ name, price, description, category });
-
-    try {
-      const savedProduct = await this.productRepository.save(product);
-      return {
-        id: savedProduct.id,
-        name: savedProduct.name,
-        price: savedProduct.price,
-        description: savedProduct.description,
-        image: null, 
-        categoryId: savedProduct.category.id, 
-      };
-    } catch (error) {
-      throw new HttpException('Error saving product', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+async create(
+  name: string,
+  price: number,
+  description: string,
+  categoryId: number,
+  userId: number,
+  image: Buffer | null
+): Promise<ProductDto> {
+  const category = await this.categoryRepository.findOne({ where: { id: categoryId } });
+  if (!category) {
+    throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
   }
+
+  const user = await this.userRepository.findOne({ where: { id: userId } });
+  if (!user) {
+    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  }
+
+  const product = this.productRepository.create({
+    name,
+    price,
+    description,
+    category,
+    user,
+    image,
+  });
+
+  const savedProduct = await this.productRepository.save(product);
+
+  return {
+    id: savedProduct.id,
+    name: savedProduct.name,
+    price: savedProduct.price,
+    description: savedProduct.description,
+    image: null, // або конвертуй як base64
+    categoryId: savedProduct.category.id,
+  };
+}
+
 
   async findByCategory(categoryId: string): Promise<ProductDto[]> {
     const categoryIdNumber = parseInt(categoryId, 10);

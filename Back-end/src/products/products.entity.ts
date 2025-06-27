@@ -3,6 +3,7 @@ import { Category } from './../categoris/categori.entity';
 import { Cart } from './../shopin-cart/cart.entity';
 import { Item } from './../Filter/item.entity';
 import { Filter } from 'src/Filter/filter.entity';
+import { User } from './../users/model.entity';
 
 
 @Entity('products')
@@ -39,5 +40,10 @@ item: Item;
 
 @ManyToMany(() => Filter, filter => filter.products)
 filters: Filter[];
+// products.entity.ts
+
+
+@ManyToOne(() => User, (user) => user.products, { onDelete: 'CASCADE' })
+user: User;
 
 }

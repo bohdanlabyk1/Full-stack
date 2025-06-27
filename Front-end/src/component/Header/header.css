@@ -1,0 +1,43 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: rgb(150, 151, 151);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+  padding: 0 20px;
+}
+
+.menu-bottom {
+  background-color: #ddd;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  font-weight: bold;
+  border-top: 1px solid #bbb;
+}
+
+.icon {
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav li {
+  list-style: none;
+  cursor: pointer;
+  font-weight: bold;
+}
